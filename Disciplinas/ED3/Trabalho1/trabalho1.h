@@ -1,18 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef enum {FALSE = 0, TRUE} Bool;
+
+
 typedef struct registro_cabecalho{
     char status;
     int numeroVertices;
     int numeroArestas;
-    char dataUltimaCompactacao[10];
+    char dataUltimaCompactacao[11];
 }registro_cabecalho;
 
 typedef struct registro_dados{
-    char estadoOrigem[2];
-    char estadoDestino[2];
+    Bool removido;
+    int rrn;
+    char estadoOrigem[3];
+    char estadoDestino[3];
     int distancia;
-    char * cidadeOrigem;
-    char * cidadeDestino;
-    char * tempoViagem;
-}
+    char cidadeOrigem[90];
+    char cidadeDestino[90];
+    char tempoViagem[90];
+}registro_dados;
