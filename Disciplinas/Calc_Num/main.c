@@ -163,10 +163,10 @@ void imprime_vetor(double * x, int n){
     printf("[");
     for(int i=0; i<n; i++){
         if(i!= n-1){
-            printf("%.4lf, ",x[i]);
+            printf("%.6lf, ",x[i]);
         }
         else{
-            printf("%.4lf]\n",x[i]);
+            printf("%.6lf]\n",x[i]);
         }
     }
 }
