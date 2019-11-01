@@ -12,14 +12,15 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -27,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JMenuItem;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 /**
  *
@@ -51,7 +54,8 @@ public class GraphicDocs extends JFrame {
     JMenuBar menuBar = new JMenuBar();
     JPanel panelBut = new JPanel();
     JPanel panelText = new JPanel();
-
+    JFrame helpFrame = new JFrame("Help");
+    
     public GraphicDocs(Docs arq, Server s) {
         super("Docs");
         
@@ -69,10 +73,18 @@ public class GraphicDocs extends JFrame {
         this.setJMenuBar(menuBar);
         
         JMenu fileMenu = new JMenu("File");
-        JMenu helpMenu = new JMenu("Help");
         
         menuBar.add(fileMenu);
+
+        JMenuItem helpMenu = new JMenuItem("Help");
+        
         menuBar.add(helpMenu);
+        
+        helpMenu.setSize(10, 30);
+        
+        helpFrame.setSize(200,200);
+        JLabel textHelp = new JLabel("Texto");
+        helpFrame.add(textHelp);
         
         JMenuItem openMenu = new JMenuItem("Open");
         JMenuItem exitMenu = new JMenuItem("Exit");
@@ -117,7 +129,8 @@ public class GraphicDocs extends JFrame {
         this.setLayout(new BorderLayout());
         this.add(panelBut, BorderLayout.NORTH);
         
-        
+        docsText.setBorder(new TitledBorder(new EtchedBorder(),"Comandos"));
+        texto.setBorder(new TitledBorder(new EtchedBorder(),"Texto"));
         panelText.setLayout(new GridLayout(2,1));
 
         texto.setText(arq.getTexto().toString());
@@ -237,6 +250,9 @@ public class GraphicDocs extends JFrame {
                         arq.setTexto(Docs.InputString(""));
                         while(s.hasNext()){
                             Docs.InsereTexto(arq, Docs.InputString(s.nextLine()), false);
+                            if(s.hasNext()){
+                                Docs.InsereTexto(arq, Docs.InputString("\n"), false);
+                            }  
                         }
                         if(!t.isAlive()){
                             t.start();
@@ -244,7 +260,6 @@ public class GraphicDocs extends JFrame {
                     } catch (FileNotFoundException ex) {
                         JOptionPane.showMessageDialog(GraphicDocs.this,"Arquivo nao encontrado");
                     }
-                    
                 }
                 arq.setCopy_paste("");
                 arq.setPilha(new LinkedList());
@@ -304,7 +319,13 @@ public class GraphicDocs extends JFrame {
             
         });
         
-        
+        helpMenu.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(GraphicDocs.this,"Arquivo nao encontrado");
+            }
+            
+        });
     }
     
     
