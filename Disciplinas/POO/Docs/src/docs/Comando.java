@@ -38,7 +38,7 @@ public class Comando {
     
     /**
      * Retorna o número da instrução.
-     * @return 
+     * @return int
      * @author João Pedro
      * @author Luis Fernando
      */
@@ -58,7 +58,7 @@ public class Comando {
     
     /**
      * Retorna a lista encadeada de caracteres referente ao comando.
-     * @return 
+     * @return Text
      * @author João Pedro
      * @author Luis Fernando
      */

@@ -101,6 +101,15 @@ public class Docs {
             programa.pilha.push(comandos);     
     }
     
+    /**
+     * Remove um trecho do texto relativo ao número passado como parâmetro.
+     * @param programa Objeto associado ao programa principal
+     * @param num Número de caracteres a serem removidos
+     * @param flag Indica se o comando será ou não empilhado
+     * @param fim Indica um índice na string a partir do qual os caracteres serão removidos
+     * @author João Pedro
+     * @author Luis Fernando 
+     */
     public static void RemoveTexto(Docs programa, int num, boolean flag, int fim){
         Comando comandos = new Comando();
         comandos.setInstrucao(2);
@@ -186,7 +195,7 @@ public class Docs {
     
     /**
      * Recebe uma string informada pelo usuário e a converte em um objeto Text.
-     * @return 
+     * @return Text
      * @author João Pedro
      * @author Luis Fernando
      */
@@ -200,7 +209,7 @@ public class Docs {
     
     /**
      * Recebe um valor inteiro correspondente ao número de caracteres a serem removidos do texto.
-     * @return
+     * @return int
      * @author João Pedro
      * @author Luis Fernando
      */
@@ -212,30 +221,72 @@ public class Docs {
         return entrada;
     }
 
+    /**
+     * Retorna o atributo Texto de um objeto Docs.
+     * @return Text
+     * @author João Pedro
+     * @author Luis Fernando
+     */
     public Text getTexto() {
         return texto;
     }
 
+    /**
+     * Retorna o atributo copy_paste de um objeto Docs.
+     * @return String
+     * @author João Pedro
+     * @author Luis Fernando
+     */
     public String getCopy_paste() {
         return copy_paste;
     }
 
+    /**
+     * Atribui um novo valor ao atributo copy_paste.
+     * @param copy_paste 
+     * @author João Pedro
+     * @author Luis Fernando
+     */
     public void setCopy_paste(String copy_paste) {
         this.copy_paste = copy_paste;
     }
 
+    /**
+     * Atribui um novo texto ao atributo Texto do programa.
+     * @param texto 
+     * @author João Pedro
+     * @author Luis Fernando
+     */
     public void setTexto(Text texto) {
         this.texto = texto;
     }
 
+    /**
+     * Retorna o atributo File do Arquivo, caso o mesmo já tenha sido salvo ou aberto.
+     * @return File
+     * @author João Pedro
+     * @author Luis Fernando
+     */
     public File getF() {
         return f;
     }
 
+    /**
+     * Atribui um novo File ao programa, utilizado quando o arquivo é salvo.
+     * @param f 
+     * @author João Pedro
+     * @author Luis Fernando
+     */
     public void setF(File f) {
         this.f = f;
     }
 
+    /**
+     * Atribui uma nova pilha de comandos ao progrma.
+     * @param pilha 
+     * @author João Pedro
+     * @author Luis Fernando
+     */
     public void setPilha(LinkedList<Comando> pilha) {
         this.pilha = pilha;
     }

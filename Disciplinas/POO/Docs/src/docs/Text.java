@@ -37,7 +37,7 @@ public class Text {
     
     /**
      * Retorna a lista encadeada de caracteres.
-     * @return 
+     * @return LinkedList
      * @author João Pedro
      * @author Luis Fernando
      */
@@ -57,7 +57,7 @@ public class Text {
     
     /**
      * Retorna uma string referente ao texto.
-     * @return 
+     * @return String
      * @author João Pedro
      * @author Luis Fernando
      */

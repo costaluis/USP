@@ -13,15 +13,12 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.LinkedList;
 import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -33,8 +30,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 /**
- *
- * @author luis
+ * Classe que implementa a interface gráfica do programa
+ * @author Joao Pedro
+ * @author Luis Fernando
  */
 public class GraphicDocs extends JFrame {
     
@@ -57,6 +55,13 @@ public class GraphicDocs extends JFrame {
     JPanel panelText = new JPanel();
     JFrame helpFrame = new JFrame("Help");
     
+    /**
+     * Construtor referente à Interface Gráfica.
+     * @param arq
+     * @param s 
+     * @author João Pedro
+     * @author Luis Fernando
+     */
     public GraphicDocs(Docs arq, Server s) {
         super("Docs");
         

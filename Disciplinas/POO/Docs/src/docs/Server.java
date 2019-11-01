@@ -10,21 +10,24 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
- *
- * @author luis
+ * Classe que roda o servidor
+ * @author Joao Pedro
+ * @author Luis Fernando
  */
 public class Server implements Runnable {
     Docs arq;
     File arquivo;
     private static boolean online;
 
+    /**
+     * Construtor da classe Server com paramêtros Docs e File.
+     * @param arquivo
+     * @param arq
+     * @throws FileNotFoundException 
+     */
     public Server(File arquivo, Docs arq) throws FileNotFoundException {
         this.arq = arq;
         this.online = true;
@@ -37,14 +40,22 @@ public class Server implements Runnable {
         }
     }
 
-    public Server() {
-    }
-
+    /**
+     * Construtor da classe Server com parâmetro Docs.
+     * @param arq 
+     * @author João Pedro
+     * @author Luis Fernando
+     */
     public Server(Docs arq) {
         this.arq = arq;
         this.online = true;
     }
     
+    /**
+     *Thread que roda o servidor, salvando o arquivo ou desconectando o usuário
+     * @author João Pedro
+     * @author Luis Fernando
+     */
     @Override
     public void run() {
         while(online){
@@ -68,10 +79,22 @@ public class Server implements Runnable {
        
     }
 
+    /**
+     * Retorna o status do servidor, ou seja, se ele está online ou não.
+     * @return boolean
+     * @author João Pedro
+     * @author Luis Fernando
+     */
     public static boolean isOnline() {
         return online;
     }
 
+    /**
+     * Altera o status do servidor.
+     * @param online 
+     * @author João Pedro
+     * @author Luis Fernando
+     */
     public static void setOnline(boolean online) {
         Server.online = online;
     }
