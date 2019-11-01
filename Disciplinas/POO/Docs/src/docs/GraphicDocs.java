@@ -6,6 +6,7 @@
 package docs;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -82,9 +83,60 @@ public class GraphicDocs extends JFrame {
         
         helpMenu.setSize(10, 30);
         
-        helpFrame.setSize(200,200);
-        JLabel textHelp = new JLabel("Texto");
-        helpFrame.add(textHelp);
+        JPanel helpPanel = new JPanel();
+        JPanel adHPanel = new JPanel();
+        JPanel remHPanel = new JPanel();
+        JPanel ccpHPanel = new JPanel();
+        
+        
+        helpFrame.setSize(450,220);
+        
+        helpFrame.add(helpPanel);
+       
+        JTextArea adHLabel = new JTextArea("Para adicionar um texto, digite-o na área de comandos e então pressione o botão Adicionar.");
+        JTextArea remHLabel = new JTextArea("Para remover um trecho do texto, digite o número de caracteres a serem removidos na área de comandos e então pressione o botão Remover.");
+        JTextArea ccpHLabel = new JTextArea("Para copiar ou recortar, selecione o texto desejado e então clique no respectivo botão. Para colar, basta clicar no botão Colar.");
+        
+        adHLabel.setSize(440,100);
+        remHLabel.setSize(440,100);
+        ccpHLabel.setSize(440,100);
+        
+        adHLabel.setLineWrap(true);
+        adHLabel.setEditable(false);
+        remHLabel.setLineWrap(true);
+        remHLabel.setEditable(false);
+        ccpHLabel.setLineWrap(true);
+        ccpHLabel.setEditable(false);
+        
+        helpFrame.getContentPane().setBackground(Color.red);
+        
+        adHLabel.setBorder(new TitledBorder(new EtchedBorder(),"Adicionar"));
+        remHLabel.setBorder(new TitledBorder(new EtchedBorder(),"Remover"));
+        ccpHLabel.setBorder(new TitledBorder(new EtchedBorder(),"Copiar/Recortar/Colar"));
+        
+        GridBagLayout grid = new GridBagLayout();
+        
+        helpPanel.setLayout(grid);
+        
+        GridBagConstraints c = grid.getConstraints(helpPanel);
+        c.gridx = 0;
+        c.gridy = 0;
+        helpPanel.add(adHPanel,c);
+        c.gridx = 0;
+        c.gridy = 1;
+        helpPanel.add(remHPanel,c);
+        c.gridx = 0;
+        c.gridy = 2;
+        helpPanel.add(ccpHPanel,c);
+        
+        helpPanel.setBackground(Color.WHITE);
+        adHPanel.setBackground(Color.WHITE);
+        remHPanel.setBackground(Color.WHITE);
+        ccpHPanel.setBackground(Color.WHITE);
+                      
+        adHPanel.add(adHLabel);
+        remHPanel.add(remHLabel);
+        ccpHPanel.add(ccpHLabel);        
         
         JMenuItem openMenu = new JMenuItem("Open");
         JMenuItem exitMenu = new JMenuItem("Exit");
@@ -100,9 +152,9 @@ public class GraphicDocs extends JFrame {
         fileMenu.addSeparator();
         fileMenu.add(exitMenu);
         
-        GridBagLayout grid = new GridBagLayout();
+        
         panelBut.setLayout(grid);
-        GridBagConstraints c = grid.getConstraints(panelBut);
+        c = grid.getConstraints(panelBut);
         c.gridx = 0;
         c.gridy = 0;
         panelBut.add(adicionarBut, c);
@@ -322,7 +374,7 @@ public class GraphicDocs extends JFrame {
         helpMenu.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(GraphicDocs.this,"Arquivo nao encontrado");
+                helpFrame.setVisible(true);
             }
             
         });
