@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define tam_cidade_max 90
+#define MAX_ARQ 1000
 
 typedef enum {FALSE = 0, TRUE} Bool;
 
@@ -30,3 +32,5 @@ int le_reg_bin(registro_dados*,int, FILE*);
 int busca_reg(char*,char*,FILE*,int,registro_dados*);
 void print_reg(int,registro_dados*);
 void func3(char*,char*,FILE*);
+int busca_binaria(char**,int,char*);
+void insere_ordenado(char**,char*,int,int);
