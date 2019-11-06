@@ -1,6 +1,11 @@
 #include "trabalho1.h"
 
 int le_reg_bin(registro_dados * dado, int RRN, FILE * arq_bin){
+    if(arq_bin==NULL){
+        printf("Falha no processamento do arquivo.");
+        return 3;
+    }
+    
     char * tmp = malloc(sizeof(char));
     int i;
     
