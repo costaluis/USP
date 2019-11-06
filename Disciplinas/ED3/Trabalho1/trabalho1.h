@@ -33,4 +33,13 @@ int busca_reg(char*,char*,FILE*,int,registro_dados*);
 void print_reg(int,registro_dados*);
 void func3(char*,char*,FILE*);
 int busca_binaria(char**,int,char*);
-void insere_ordenado(char**,char*,int,int);
+void insere_ordenado(char**,char*,int);
+
+#ifndef H_ESCREVERNATELA_
+	#define H_ESCREVERNATELA_
+	#include <stdio.h>
+
+	void binarioNaTela1(char *nomeArquivoBinario);
+	void trim(char *str);
+	void scan_quote_string(char *str);
+#endif
