@@ -1,9 +1,14 @@
 #include "trabalho1.h"
 
 int busca_reg(char*campo, char*valor, FILE*arq_bin, int RRN, registro_dados * dado){
-    
-    if(le_reg_bin(dado,RRN,arq_bin)){
+    int c = func4(dado,RRN,arq_bin);
+
+    if(c==1){
         return 1; //Fim do arquivo
+    }
+
+    if(c==2){
+        return 3;
     }
 
     if(!strcmp(campo,"estadoOrigem")){

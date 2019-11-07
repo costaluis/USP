@@ -1,11 +1,6 @@
 #include "trabalho1.h"
 
 void func6(FILE *arq_bin, registro_dados *tmp){
-    if(arq_bin==NULL){
-        printf("Falha no processamento do arquivo.");
-        return;
-    }
-    
     int cont = 0;
     int i;
     char lixo = hashtag;

@@ -1,8 +1,13 @@
 #include "trabalho1.h"
 
-int le_reg_bin(registro_dados * dado, int RRN, FILE * arq_bin){
-    if(arq_bin==NULL){
-        printf("Falha no processamento do arquivo.");
+int func4(registro_dados * dado, int RRN, FILE * arq_bin){
+    char status;
+
+    fseek(arq_bin,0,SEEK_SET);
+    fread(&status,1,1,arq_bin);
+
+    if(status == '0'){
+        printf("Falha no processamento do arquivo.\n");
         return 3;
     }
     

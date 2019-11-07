@@ -3,9 +3,13 @@
 void func3(char*campo, char*valor, FILE*arq_bin){
     registro_dados * dado = (registro_dados*) malloc(sizeof(registro_dados));
     int c;
+    char status;
 
-    if(arq_bin==NULL){
-        printf("Falha no processamento do arquivo.");
+    fseek(arq_bin,0,SEEK_SET);
+    fread(&status,1,1,arq_bin);
+
+    if(status == '0'){
+        printf("Falha no processamento do arquivo.\n");
         return;
     }
 

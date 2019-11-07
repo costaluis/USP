@@ -36,7 +36,7 @@ void func8(FILE *bin_in, FILE *bin_out){
     fwrite(cabecalho->dataUltimaCompactacao,10,1,bin_out);
 
     for(int i=0;;i++){
-        c = le_reg_bin(dado,i,bin_in);
+        c = func4(dado,i,bin_in);
         if(c==1){
             break;
         }

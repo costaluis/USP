@@ -5,9 +5,6 @@
 #define MAX_ARQ 1000
 #define hashtag '#'
 
-typedef enum {FALSE = 0, TRUE} Bool;
-
-
 typedef struct registro_cabecalho{
     char status;
     int numeroVertices;
@@ -16,8 +13,6 @@ typedef struct registro_cabecalho{
 }registro_cabecalho;
 
 typedef struct registro_dados{
-    Bool removido;
-    int rrn;
     char estadoOrigem[3];
     char estadoDestino[3];
     int distancia;
@@ -32,19 +27,21 @@ typedef struct cidade{
 }cidade;
 
 int le_reg_csv(FILE *, registro_dados*);
-void le_arq_bin(FILE*);
-int le_reg_bin(registro_dados*,int, FILE*);
 int busca_reg(char*,char*,FILE*,int,registro_dados*);
 void print_reg(int,registro_dados*);
 int func1(FILE *, FILE *, cidade*);
+void func2(FILE*);
 void func3(char*,char*,FILE*);
-void func5(FILE*,char*,char*);
+int func4(registro_dados*,int, FILE*);
+void func5(FILE*,char*,char*,cidade*);
 void func6(FILE*,registro_dados*);
-void func7(FILE *, int , char *, char *);
+void func7(FILE *, int , char *, char *,cidade*);
 void func8(FILE *, FILE *);
 int busca_binaria(cidade*,int,char*);
 void insere_ordenado(cidade*,char*,int);
 void remove_cidade(cidade*,int,int);
+cidade * cria_tabela(FILE*);
+
 
 #ifndef H_ESCREVERNATELA_
 	#define H_ESCREVERNATELA_

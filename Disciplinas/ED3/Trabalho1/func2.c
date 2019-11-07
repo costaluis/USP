@@ -1,8 +1,11 @@
 #include "trabalho1.h"
 
-void le_arq_bin(FILE * arq_bin){
-    if(arq_bin==NULL){
-        printf("Falha no processamento do arquivo.");
+void func2(FILE * arq_bin){
+    char status;
+    fseek(arq_bin,0,SEEK_SET);
+    fread(&status,1,1,arq_bin);
+    if(status == '0'){
+        printf("Falha no processamento do arquivo.\n");
         return;
     }
     
@@ -11,7 +14,7 @@ void le_arq_bin(FILE * arq_bin){
     int flag = 1;
 
     for(int i=0;; i++){
-        c = le_reg_bin(aux, i, arq_bin);
+        c = func4(aux, i, arq_bin);
         if(c==1){
             break;
         }
@@ -21,7 +24,7 @@ void le_arq_bin(FILE * arq_bin){
         }  
     }
     if(flag){
-        printf("Registro inexistente.");
+        printf("Registro inexistente.\n");
     }
 
     free(aux);
