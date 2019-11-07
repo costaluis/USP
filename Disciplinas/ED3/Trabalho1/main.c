@@ -22,7 +22,7 @@ int main(){
                 if(arq_bin != NULL){
                     fclose(arq_bin);
                 }
-                return 1;
+                return 0;
             }
             if(arq_bin == NULL){
                 printf("Falha no carregamento do arquivo.\n");
@@ -30,7 +30,7 @@ int main(){
                 if(arq_csv != NULL){
                     fclose(arq_csv);
                 }
-                return 1;
+                return 0;
             }
 
             func1(arq_csv,arq_bin,city);
@@ -49,7 +49,7 @@ int main(){
             FILE *arq_bin = fopen(bin,"rb");
             if(arq_bin == NULL){
                 printf("Falha no processamento do arquivo.\n");
-                return 1;
+                return 0;
             }
 
             func2(arq_bin);
@@ -69,7 +69,7 @@ int main(){
             FILE *arq_bin = fopen(bin,"rb");
             if(arq_bin == NULL){
                 printf("Falha no processamento do arquivo.\n");
-                return 1;
+                return 0;
             }
 
             func3(campo,valor,arq_bin);
@@ -90,7 +90,7 @@ int main(){
             if(arq_bin == NULL){
                 printf("Falha no processamento do arquivo.\n");
                 free(dados);
-                return 1;
+                return 0;
             }
 
             c = func4(dados,rrn,arq_bin);
@@ -119,7 +119,7 @@ int main(){
             FILE *arq_bin = fopen(bin,"rb+");
             if(arq_bin == NULL){
                 printf("Falha no processamento do arquivo.\n");
-                return 1;
+                return 0;
             }
 
             char campo[20];
@@ -127,7 +127,7 @@ int main(){
             cidade * city = cria_tabela(arq_bin);
             if(city == NULL){
                 fclose(arq_bin);
-                return 1;
+                return 0;
             }
 
             for(int i=0; i<n; i++){
@@ -160,7 +160,7 @@ int main(){
                 printf("Falha no processamento do arquivo.\n");
                 free(dado);
                 free(city);
-                return 1;
+                return 0;
             }
             fseek(arq_bin,0,SEEK_SET);
             fread(&s,1,1,arq_bin);
@@ -170,7 +170,7 @@ int main(){
                 free(dado);
                 free(city);
                 fclose(arq_bin);
-                return 1;
+                return 0;
             }
 
             city = cria_tabela(arq_bin);
@@ -238,7 +238,7 @@ int main(){
             if(s == '0'){
                 printf("Falha no processamento do arquivo.\n");
                 fclose(arq_bin);
-                return 1;
+                return 0;
             }
 
             cidade * city = cria_tabela(arq_bin);
@@ -254,9 +254,43 @@ int main(){
             binarioNaTela1(bin);
             break;
         }
-        case 8:
-            
+        case 8:{
+            char bin_in[50];
+            char bin_out[50];
+            scanf("%s",bin_in);
+            scanf("%s",bin_out);
+            FILE * arq_in = fopen(bin_in,"rb");
+            FILE * arq_out = fopen(bin_out,"wb");
+
+            if(arq_in==NULL){
+                printf("Falha no carregamento do arquivo.\n");
+                if(arq_out!=NULL){
+                    fclose(arq_out);
+                }
+                return 0;
+            }
+
+            if(arq_out==NULL){
+                printf("Falha no carregamento do arquivo.\n");
+                if(arq_in != NULL){
+                    fclose(arq_in);
+                }
+                return 0;
+            }
+
+            if(func8(arq_in,arq_out)){
+                fclose(arq_in);
+                fclose(arq_out);
+                return 0;
+            }
+
+            fclose(arq_in);
+            fclose(arq_out);
+
+            binarioNaTela1(bin_out);
+
             break;
+        }
         default:
             break;
     }

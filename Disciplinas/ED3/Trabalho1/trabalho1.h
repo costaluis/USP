@@ -36,7 +36,7 @@ int func4(registro_dados*,int, FILE*);
 void func5(FILE*,char*,char*,cidade*);
 void func6(FILE*,registro_dados*);
 void func7(FILE *, int , char *, char *,cidade*);
-void func8(FILE *, FILE *);
+int func8(FILE *, FILE *);
 int busca_binaria(cidade*,int,char*);
 void insere_ordenado(cidade*,char*,int);
 void remove_cidade(cidade*,int,int);

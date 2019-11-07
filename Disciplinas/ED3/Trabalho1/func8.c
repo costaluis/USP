@@ -1,16 +1,6 @@
 #include "trabalho1.h"
 
-void func8(FILE *bin_in, FILE *bin_out){
-    if(bin_in==NULL){
-        printf("Falha no processamento do arquivo.");
-        return;
-    }
-
-    if(bin_out==NULL){
-        printf("Falha no processamento do arquivo.");
-        return;
-    }
-    
+int func8(FILE *bin_in, FILE *bin_out){
     char status;
     int c;
     registro_cabecalho * cabecalho = (registro_cabecalho*) malloc(sizeof(registro_cabecalho));
@@ -19,8 +9,8 @@ void func8(FILE *bin_in, FILE *bin_out){
     fread(&status,1,1,bin_in);
     
     if(status == '0'){
-        printf("Falha no carregamento do arquivo.");
-        return;
+        printf("Falha no carregamento do arquivo.\n");
+        return 1;
     }
 
     cabecalho->status = '0';
@@ -48,5 +38,5 @@ void func8(FILE *bin_in, FILE *bin_out){
     cabecalho->status = '1';
     fseek(bin_out,0,SEEK_SET);
     fwrite(&(cabecalho->status),1,1,bin_out);
-    return;
-}
+    return 0;
+} 

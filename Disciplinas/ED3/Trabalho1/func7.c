@@ -1,5 +1,7 @@
 #include "trabalho1.h"
 
+//COLOCAR FREAD EM TODAS VERIFICAÇÕES
+
 void func7(FILE *arq_bin, int RRN, char *campo, char *valor, cidade *city){  
     char c;
     char pipe = '|';
@@ -27,7 +29,6 @@ void func7(FILE *arq_bin, int RRN, char *campo, char *valor, cidade *city){
         int val = atoi(valor);
         fseek(arq_bin,19+85*RRN+4,SEEK_SET);
         if(!fread(&c,1,1,arq_bin)){
-            printf("Ruim deu %d\n",RRN);
             return;
         }
         fseek(arq_bin,19+85*RRN+4,SEEK_SET);
@@ -91,7 +92,6 @@ void func7(FILE *arq_bin, int RRN, char *campo, char *valor, cidade *city){
         fread(&vertices,4,1,arq_bin);
 
         if(func4(dado,RRN,arq_bin)){
-            printf("Deu ruim %d\n",RRN);
             return;
         }
         
