@@ -48,6 +48,7 @@ int func1(FILE * arq_csv, FILE * arq_bin, cidade *city){
 
 
     free(tmp);
+    free(cab);
 
     return 0;
 }

@@ -10,6 +10,8 @@ int func8(FILE *bin_in, FILE *bin_out){
     
     if(status == '0'){
         printf("Falha no carregamento do arquivo.\n");
+        free(cabecalho);
+        free(dado);
         return 1;
     }
 
@@ -38,5 +40,7 @@ int func8(FILE *bin_in, FILE *bin_out){
     cabecalho->status = '1';
     fseek(bin_out,0,SEEK_SET);
     fwrite(&(cabecalho->status),1,1,bin_out);
+    free(dado);
+    free(cabecalho);
     return 0;
 } 

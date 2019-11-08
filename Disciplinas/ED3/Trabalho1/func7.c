@@ -44,6 +44,7 @@ void func7(FILE *arq_bin, int RRN, char *campo, char *valor, cidade *city){
         fread(&vertices,4,1,arq_bin);
 
         if(func4(dado,RRN,arq_bin)){
+            free(dado);
             return;
         }
         
@@ -92,6 +93,7 @@ void func7(FILE *arq_bin, int RRN, char *campo, char *valor, cidade *city){
         fread(&vertices,4,1,arq_bin);
 
         if(func4(dado,RRN,arq_bin)){
+            free(dado);
             return;
         }
         
@@ -130,6 +132,7 @@ void func7(FILE *arq_bin, int RRN, char *campo, char *valor, cidade *city){
         registro_dados *dado = (registro_dados *)malloc(sizeof(registro_dados));
 
         if(func4(dado,RRN,arq_bin)){
+            free(dado);
             return;
         }
         if(!strcmp("",valor)){

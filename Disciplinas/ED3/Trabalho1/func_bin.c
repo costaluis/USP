@@ -33,6 +33,7 @@ void insere_ordenado(cidade * cidades, char * new_city, int tamanho){
     if(tamanho==0){
         strcpy(cidades[0].nome,new_city);
         cidades[0].repeticoes = 1;
+        free(aux);
         return;
     }
 
@@ -42,6 +43,7 @@ void insere_ordenado(cidade * cidades, char * new_city, int tamanho){
     if(i==tamanho){
         strcpy(cidades[i].nome,new_city);
         cidades[i].repeticoes = 1;
+        free(aux);
         return;
     }
 

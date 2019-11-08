@@ -40,5 +40,6 @@ cidade * cria_tabela(FILE *arq_bin){
             }
         }
     }
+    free(dados);
     return city;
 }

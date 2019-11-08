@@ -43,6 +43,7 @@ void func5(FILE * arq_bin, char * campo, char * valor, cidade *city){
     fseek(arq_bin,1,SEEK_SET);
     fwrite(&vertices,4,1,arq_bin);
     fwrite(&arestas,4,1,arq_bin);
+    free(dado);
     
     return;
 }

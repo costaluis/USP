@@ -150,7 +150,7 @@ int main(){
             int n, c;
             int vertices, arestas;
             registro_dados *dado =(registro_dados*)malloc(sizeof(registro_dados));
-            cidade *city = (cidade*)malloc(MAX_ARQ*sizeof(cidade));
+            cidade *city;
 
             scanf("%s",bin);
             scanf("%d",&n);
@@ -159,7 +159,6 @@ int main(){
             if(arq_bin == NULL){
                 printf("Falha no processamento do arquivo.\n");
                 free(dado);
-                free(city);
                 return 0;
             }
             fseek(arq_bin,0,SEEK_SET);
@@ -168,7 +167,6 @@ int main(){
             if(s == '0'){
                 printf("Falha no processamento do arquivo.\n");
                 free(dado);
-                free(city);
                 fclose(arq_bin);
                 return 0;
             }
@@ -230,6 +228,7 @@ int main(){
             FILE * arq_bin = fopen(bin,"r+b");
             if(arq_bin == NULL){
                 printf("Falha no processamento do arquivo.\n");
+                return 0;
             }
 
             fseek(arq_bin,0,SEEK_SET);
