@@ -1,27 +1,31 @@
 #include "trabalho1.h"
 
-//COLOCAR FREAD EM TODAS VERIFICAÇÕES
+//Função 7 - Atualização de Registro
 
 void func7(FILE *arq_bin, int RRN, char *campo, char *valor, cidade *city){  
     char c;
     char pipe = '|';
 
-    fseek(arq_bin,19+85*RRN,SEEK_SET);
+    fseek(arq_bin,19+85*RRN,SEEK_SET);                  //Confere se o Status está válido
     fread(&c,1,1,arq_bin);
     if(c == '*'){
         return;
     }
-    if(!strcmp(campo,"estadoOrigem")){
-        if(fseek(arq_bin,19+85*RRN,SEEK_SET)){
-            return;
+    if(!strcmp(campo,"estadoOrigem")){                  //Confere se o campo e valor a ser atualizado está no registro
+        fseek(arq_bin,19+85*RRN,SEEK_SET);
+        if(!fread(&c,1,1,arq_bin)){                     //Em campos fixos altera apenas no campo
+            return;                                     //Em campos variáveis atualiza o campo e reescreve os campos posteriores
         }
+        fseek(arq_bin,19+85*RRN,SEEK_SET);              
         fwrite(valor,2,1,arq_bin);
         return;
     }
     if(!strcmp(campo,"estadoDestino")){
-        if(fseek(arq_bin,19+85*RRN+2,SEEK_SET)){
+        fseek(arq_bin,19+85*RRN+2,SEEK_SET);
+        if(!fread(&c,1,1,arq_bin)){
             return;
         }
+        fseek(arq_bin,19+85*RRN+2,SEEK_SET);
         fwrite(valor,2,1,arq_bin);
         return;
     }

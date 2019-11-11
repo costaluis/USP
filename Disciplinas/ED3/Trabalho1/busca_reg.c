@@ -1,16 +1,18 @@
 #include "trabalho1.h"
 
+//Busca um registro a partir de um valor de um campo especificado e de um RRN
 int busca_reg(char*campo, char*valor, FILE*arq_bin, int RRN, registro_dados * dado){
-    int c = func4(dado,RRN,arq_bin);
+    int c = func4(dado,RRN,arq_bin);	//chama a func4 para a recuperação de um registro
 
-    if(c==1){
-        return 1; //Fim do arquivo
+    if(c==1){	//Fim do arquivo
+        return 1; 
     }
 
-    if(c==2){
+    if(c==2){	//Registro removido
         return 3;
     }
 
+    //Identificação do campo
     if(!strcmp(campo,"estadoOrigem")){
         if(!strcmp(valor,dado->estadoOrigem)){
             return 0;
@@ -53,7 +55,7 @@ int busca_reg(char*campo, char*valor, FILE*arq_bin, int RRN, registro_dados * da
         }
     }
 
-    return 2;
+    return 2;	//Retorno se não atende ao critério buscado
 
 }
 

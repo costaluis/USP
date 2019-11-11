@@ -1,16 +1,12 @@
 #include "trabalho1.h"
 
+//Cria vetor de cidades
+
 cidade * cria_tabela(FILE *arq_bin){
     char status;
 
     fseek(arq_bin,0,SEEK_SET);
     fread(&status,1,1,arq_bin);
-
-    if(status == '0'){
-        printf("Falha no processamento do arquivo.\n");
-        return NULL;
-    }
-
 
     int c, m;
     int tam = 0;
@@ -18,21 +14,21 @@ cidade * cria_tabela(FILE *arq_bin){
     registro_dados *dados = (registro_dados*)malloc(sizeof(registro_dados));
     
     for(int i=0;;i++){
-        c = func4(dados,i,arq_bin);
-        if(c == 1){
+        c = func4(dados,i,arq_bin); //Leitura de registros por RRN
+        if(c == 1){ //Fim do arquivo
             break;
         }
-        if(c == 0){
-            m = busca_binaria(city,tam,dados->cidadeOrigem);
-            if(m == -1){
+        if(c == 0){ //Registro válido
+            m = busca_binaria(city,tam,dados->cidadeOrigem); //Verifica se cidadeOrigem está no vetor
+            if(m == -1){ //Cidade não encontrada
                 insere_ordenado(city,dados->cidadeOrigem,tam);
                 tam++;
             }else{
                 city[m].repeticoes++;
             }
 
-            m = busca_binaria(city,tam,dados->cidadeDestino);
-            if(m == -1){
+            m = busca_binaria(city,tam,dados->cidadeDestino); //Verifica se cidadeDestino está no vetor
+            if(m == -1){ //Cidade não encontrada
                 insere_ordenado(city,dados->cidadeDestino,tam);
                 tam++;
             }else{
@@ -40,6 +36,5 @@ cidade * cria_tabela(FILE *arq_bin){
             }
         }
     }
-    free(dados);
-    return city;
+    return city; //Retorna o vetor
 }
