@@ -7,21 +7,25 @@ package docs;
 
 /**
  * Representa um comando referente à manipulação do objeto Text.
+ * 
  * @author João Pedro
  * @author Luis Fernando
  */
 public class Comando {
     private int instrucao;
     private Text operando;
+    private int fim;
     
     /**
      * Construtor da classe comando.
+     * 
      * @author João Pedro
      * @author Luis Fernando
      */
     public Comando() {
         this.instrucao = 0;
         this.operando = new Text();
+        this.fim = -1;
     }
     
     /**
@@ -75,5 +79,26 @@ public class Comando {
     public void setOperando(Text operando) {
         this.operando = operando;
     }
+
+    /**
+     * Retorna o fim de um comando.
+     * @return int
+     * @author João Pedro
+     * @author Luis Fernando
+     */
+    public int getFim() {
+        return fim;
+    }
+
+    /**
+     * Atribui um novo valor para o fim de um comando.
+     * @param fim 
+     * @author João Pedro
+     * @author Luis Fernando
+     */
+    public void setFim(int fim) {
+        this.fim = fim;
+    }
+    
     
 }

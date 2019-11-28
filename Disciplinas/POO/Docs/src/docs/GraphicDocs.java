@@ -13,12 +13,17 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -30,19 +35,23 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 /**
- * Classe que implementa a interface gráfica do programa
+ * Classe que implementa a interface gráfica do cliente.
+ *
  * @author Joao Pedro
  * @author Luis Fernando
  */
 public class GraphicDocs extends JFrame {
-    
+
     Docs arq;
     Thread t;
-    
+    ObjectInputStream input;
+    ObjectOutputStream output;
+    Socket socket;
+
     JTextArea texto = new JTextArea();
     JTextArea docsText = new JTextArea();
-    JScrollPane scrollComando = new JScrollPane(docsText); 
-    JScrollPane scrollTexto = new JScrollPane(texto); 
+    JScrollPane scrollComando = new JScrollPane(docsText);
+    JScrollPane scrollTexto = new JScrollPane(texto);
     JButton adicionarBut = new JButton("Adicionar");
     JButton removerBut = new JButton("Remover");
     JButton desfazerBut = new JButton("Desfazer");
@@ -54,110 +63,113 @@ public class GraphicDocs extends JFrame {
     JPanel panelBut = new JPanel();
     JPanel panelText = new JPanel();
     JFrame helpFrame = new JFrame("Help");
-    
+    JLabel numClientes = new JLabel();
+
     /**
-     * Construtor referente à Interface Gráfica.
+     * Construtor referente à Interface Gráfica do cliente.
+     *
      * @param arq
-     * @param s 
      * @author João Pedro
      * @author Luis Fernando
+     * @throws java.io.IOException
      */
-    public GraphicDocs(Docs arq, Server s) {
+    public GraphicDocs(Docs arq) throws IOException {
         super("Docs");
-        
+
+        this.socket = new Socket("127.0.0.1", 12345);
+
+        this.output = new ObjectOutputStream(socket.getOutputStream());
+        this.input = new ObjectInputStream(socket.getInputStream());
+
         this.arq = arq;
-        t = new Thread(s);
+        ReceiveMsg tr = new ReceiveMsg(this.input, texto, output, arq, this);
+        t = new Thread(tr);
+        t.start();
         this.setSize(800, 800);
-        
+
         texto.setEditable(false);
         texto.setLineWrap(true);
         docsText.setLineWrap(true);
         scrollComando.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollComando.setPreferredSize(new Dimension(400,400));
+        scrollComando.setPreferredSize(new Dimension(400, 400));
         scrollTexto.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollTexto.setPreferredSize(new Dimension(400,400));
+        scrollTexto.setPreferredSize(new Dimension(400, 400));
         this.setJMenuBar(menuBar);
-        
+
         JMenu fileMenu = new JMenu("File");
-        
+
         menuBar.add(fileMenu);
 
         JMenuItem helpMenu = new JMenuItem("Help");
-        
+
         menuBar.add(helpMenu);
-        
+        menuBar.add(numClientes);
+
         helpMenu.setSize(10, 30);
-        
+
         JPanel helpPanel = new JPanel();
         JPanel adHPanel = new JPanel();
         JPanel remHPanel = new JPanel();
         JPanel ccpHPanel = new JPanel();
-        
-        
-        helpFrame.setSize(450,220);
-        
+
+        helpFrame.setSize(450, 220);
+
         helpFrame.add(helpPanel);
-       
+
         JTextArea adHLabel = new JTextArea("Para adicionar um texto, digite-o na área de comandos e então pressione o botão Adicionar.");
         JTextArea remHLabel = new JTextArea("Para remover um trecho do texto, digite o número de caracteres a serem removidos na área de comandos e então pressione o botão Remover.");
         JTextArea ccpHLabel = new JTextArea("Para copiar ou recortar, selecione o texto desejado e então clique no respectivo botão. Para colar, basta clicar no botão Colar.");
-        
-        adHLabel.setSize(440,100);
-        remHLabel.setSize(440,100);
-        ccpHLabel.setSize(440,100);
-        
+
+        adHLabel.setSize(440, 100);
+        remHLabel.setSize(440, 100);
+        ccpHLabel.setSize(440, 100);
+
         adHLabel.setLineWrap(true);
         adHLabel.setEditable(false);
         remHLabel.setLineWrap(true);
         remHLabel.setEditable(false);
         ccpHLabel.setLineWrap(true);
         ccpHLabel.setEditable(false);
-        
+
         helpFrame.getContentPane().setBackground(Color.red);
-        
-        adHLabel.setBorder(new TitledBorder(new EtchedBorder(),"Adicionar"));
-        remHLabel.setBorder(new TitledBorder(new EtchedBorder(),"Remover"));
-        ccpHLabel.setBorder(new TitledBorder(new EtchedBorder(),"Copiar/Recortar/Colar"));
-        
+
+        adHLabel.setBorder(new TitledBorder(new EtchedBorder(), "Adicionar"));
+        remHLabel.setBorder(new TitledBorder(new EtchedBorder(), "Remover"));
+        ccpHLabel.setBorder(new TitledBorder(new EtchedBorder(), "Copiar/Recortar/Colar"));
+
         GridBagLayout grid = new GridBagLayout();
-        
+
         helpPanel.setLayout(grid);
-        
+
         GridBagConstraints c = grid.getConstraints(helpPanel);
         c.gridx = 0;
         c.gridy = 0;
-        helpPanel.add(adHPanel,c);
+        helpPanel.add(adHPanel, c);
         c.gridx = 0;
         c.gridy = 1;
-        helpPanel.add(remHPanel,c);
+        helpPanel.add(remHPanel, c);
         c.gridx = 0;
         c.gridy = 2;
-        helpPanel.add(ccpHPanel,c);
-        
+        helpPanel.add(ccpHPanel, c);
+
         helpPanel.setBackground(Color.WHITE);
         adHPanel.setBackground(Color.WHITE);
         remHPanel.setBackground(Color.WHITE);
         ccpHPanel.setBackground(Color.WHITE);
-                      
+
         adHPanel.add(adHLabel);
         remHPanel.add(remHLabel);
-        ccpHPanel.add(ccpHLabel);        
-        
+        ccpHPanel.add(ccpHLabel);
+
         JMenuItem openMenu = new JMenuItem("Open");
         JMenuItem exitMenu = new JMenuItem("Exit");
         JMenuItem saveMenu = new JMenuItem("Save");
-        JMenuItem saveAsMenu = new JMenuItem("Save as...");
-        JMenuItem discMenu = new JMenuItem("Disconnect");
-        
+
         fileMenu.add(openMenu);
         fileMenu.add(saveMenu);
-        fileMenu.add(saveAsMenu);
-        fileMenu.addSeparator();
-        fileMenu.add(discMenu);
         fileMenu.addSeparator();
         fileMenu.add(exitMenu);
-        
-        
+
         panelBut.setLayout(grid);
         c = grid.getConstraints(panelBut);
         c.gridx = 0;
@@ -181,212 +193,215 @@ public class GraphicDocs extends JFrame {
         c.gridx = 6;
         c.gridy = 0;
         panelBut.add(cutBut, c);
-        
-        
+
         this.setLayout(new BorderLayout());
         this.add(panelBut, BorderLayout.NORTH);
-        
-        docsText.setBorder(new TitledBorder(new EtchedBorder(),"Comandos"));
-        texto.setBorder(new TitledBorder(new EtchedBorder(),"Texto"));
-        panelText.setLayout(new GridLayout(2,1));
+
+        docsText.setBorder(new TitledBorder(new EtchedBorder(), "Comandos"));
+        texto.setBorder(new TitledBorder(new EtchedBorder(), "Texto"));
+        panelText.setLayout(new GridLayout(2, 1));
 
         texto.setText(arq.getTexto().toString());
-        
+
         this.add(scrollComando, BorderLayout.CENTER);
         this.add(scrollTexto, BorderLayout.SOUTH);
-        
-        adicionarBut.addActionListener(new ActionListener(){
+
+        while (!tr.on) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GraphicDocs.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        this.setVisible(true);
+
+        adicionarBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Docs.InsereTexto(arq, Docs.InputString(docsText.getText()), true);
                 texto.setText(arq.getTexto().toString());
                 docsText.setText("");
+                try {
+                    output.writeUTF(texto.getText());
+                    output.flush();
+                } catch (IOException ex) {
+
+                }
             }
-            
+
         });
-        
-        removerBut.addActionListener(new ActionListener(){
+
+        removerBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String tmp;
                 int num;
                 tmp = docsText.getText();
-                try{
+                try {
                     num = Integer.parseInt(tmp);
                     Docs.RemoveTexto(arq, num, true);
                     docsText.setText("");
                     texto.setText(arq.getTexto().toString());
-                }
-                catch(IllegalArgumentException f){
-                    JOptionPane.showMessageDialog(GraphicDocs.this,"Digite um número válido!");
+                } catch (IllegalArgumentException f) {
+                    JOptionPane.showMessageDialog(GraphicDocs.this, "Digite um número válido!");
                     docsText.setText("");
+                }
+                try {
+                    output.writeUTF(texto.getText());
+                    output.flush();
+                } catch (IOException ex) {
+                    Logger.getLogger(GraphicDocs.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
-        
-        refazerBut.addActionListener(new ActionListener(){
+
+        refazerBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Docs.Refazer(arq);
                 texto.setText(arq.getTexto().toString());
+                try {
+                    output.writeUTF(texto.getText());
+                    output.flush();
+                } catch (IOException ex) {
+                    Logger.getLogger(GraphicDocs.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            
+
         });
-        
-        desfazerBut.addActionListener(new ActionListener(){
+
+        desfazerBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                try{
+
+                try {
                     Docs.Desfazer(arq);
                     texto.setText(arq.getTexto().toString());
+                    output.writeUTF(texto.getText());
+                    output.flush();
+                } catch (NullPointerException | IOException f) {
+
                 }
-                catch(NullPointerException f){
-                    
-                }
+
             }
-            
+
         });
-        
-        copyBut.addActionListener(new ActionListener(){
+
+        copyBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 arq.setCopy_paste(texto.getSelectedText());
+                try {
+                    output.writeUTF(texto.getText());
+                    output.flush();
+                } catch (IOException ex) {
+                    Logger.getLogger(GraphicDocs.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            
+
         });
-        
-        cutBut.addActionListener(new ActionListener(){
+
+        cutBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int fim = texto.getSelectionEnd();
                 int i;
-                
+
                 arq.setCopy_paste(texto.getSelectedText());
-                try{
+                try {
                     Docs.RemoveTexto(arq, arq.getCopy_paste().length(), false, fim);
                     texto.setText(arq.getTexto().toString());
-                }catch(NullPointerException d){
-                    
+                    output.writeUTF(texto.getText());
+                    output.flush();
+                } catch (NullPointerException | IOException d) {
+
                 }
             }
-            
+
         });
-        
-        pasteBut.addActionListener(new ActionListener(){
+
+        pasteBut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{    
+                try {
                     Docs.InsereTexto(arq, Docs.InputString(arq.getCopy_paste()), true);
                     texto.setText(arq.getTexto().toString());
-                }catch(NullPointerException d){
-                    
+                    output.writeUTF(texto.getText());
+                    output.flush();
+                } catch (NullPointerException | IOException d) {
+
                 }
-                
             }
-            
+
         });
-        
-        exitMenu.addActionListener(new ActionListener(){
+
+        openMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    t.interrupt();
+                    GraphicDocs.this.input.close();
+                    GraphicDocs.this.output.close();
+                    GraphicDocs.this.socket.close();
+                    System.out.println("aqui");
+                    GraphicDocs.this.socket = new Socket("127.0.0.1", 12345);
+                    GraphicDocs.this.output = new ObjectOutputStream(GraphicDocs.this.socket.getOutputStream());
+                    GraphicDocs.this.input = new ObjectInputStream(GraphicDocs.this.socket.getInputStream());
+                    System.out.println("oi");
+                } catch (IOException ex) {
+                    Logger.getLogger(GraphicDocs.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                ReceiveMsg tr = new ReceiveMsg(GraphicDocs.this.input, GraphicDocs.this.texto, GraphicDocs.this.output, GraphicDocs.this.arq, GraphicDocs.this);
+                t = new Thread(tr);
+                t.start();
+
+            }
+        });
+
+        exitMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    GraphicDocs.this.socket.close();
+                    GraphicDocs.this.input.close();
+                    GraphicDocs.this.output.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(GraphicDocs.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 System.exit(0);
             }
         });
-        
-        openMenu.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser file = new JFileChooser(); 
-                int returnVal = file.showOpenDialog(openMenu);
-                
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    arq.setF(file.getSelectedFile());
-                    try {
-                        Scanner s = new Scanner(arq.getF());
-                        arq.setTexto(Docs.InputString(""));
-                        while(s.hasNext()){
-                            Docs.InsereTexto(arq, Docs.InputString(s.nextLine()), false);
-                            if(s.hasNext()){
-                                Docs.InsereTexto(arq, Docs.InputString("\n"), false);
-                            }  
-                        }
-                        if(!t.isAlive()){
-                            t.start();
-                        }
-                    } catch (FileNotFoundException ex) {
-                        JOptionPane.showMessageDialog(GraphicDocs.this,"Arquivo nao encontrado");
-                    }
-                }
-                arq.setCopy_paste("");
-                arq.setPilha(new LinkedList());
-                texto.setText(arq.getTexto().toString());
-            }
-        });
-        
-        saveMenu.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(arq.getF()==null){
-                    JFileChooser file = new JFileChooser(); 
-                    int returnVal = file.showSaveDialog(saveMenu);
-                
-                    if (returnVal == JFileChooser.APPROVE_OPTION) {
-                        arq.setF(file.getSelectedFile());
-                        if(!t.isAlive()){
-                            t.start();
-                        }
-                        t.interrupt();
-                    } 
-                }else{
-                    t.interrupt();
-                }
-            }
-        });
-        
-        saveAsMenu.addActionListener(new ActionListener(){
+
+        saveMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                JFileChooser file = new JFileChooser(); 
+                JFileChooser file = new JFileChooser();
                 int returnVal = file.showSaveDialog(saveMenu);
-                
+
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    arq.setF(file.getSelectedFile());
+                    try {
+                        FileWriter writer = new FileWriter(file.getSelectedFile());
+                        writer.write(GraphicDocs.this.texto.getText());
+                        writer.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(GraphicDocs.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     t.interrupt();
                 }
-                
+
             }
         });
-        
-        discMenu.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(t.isAlive()){
-                    Server.setOnline(false);
-                    t.interrupt();
-                }
-                t = new Thread(s);
-                arq.setTexto(Docs.InputString(""));
-                arq.setF(null);
-                arq.setPilha(new LinkedList());
-                arq.setCopy_paste("");
-                texto.setText(arq.getTexto().toString());
-            }
-            
-        });
-        
-        helpMenu.addActionListener(new ActionListener(){
+
+        helpMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 helpFrame.setVisible(true);
             }
-            
+
         });
     }
-    
-    
-    
-    
-  
+
 }

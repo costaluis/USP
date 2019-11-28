@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="ServerDocs">
+  <ClassDiagramComponents>
+    <Class name="ForwardMessage" package="serverdocs" visibility="public" xPosition="412.0" yPosition="1492.0">
+      <Fields>
+        <Field name="input" type="ObjectInputStream" visibility="private"/>
+        <Field name="output" type="ObjectOutputStream" visibility="private"/>
+        <Field name="clients" type="Vector&lt;ForwardMessage&gt;" visibility="private"/>
+        <Field name="arquivos" type="Vector&lt;String&gt;" visibility="private"/>
+        <Field name="nomesArq" type="Vector&lt;String&gt;" visibility="private"/>
+        <Field name="socket" type="Socket" visibility="private"/>
+        <Field name="nomeArq" type="String" visibility="private"/>
+        <Field name="arquivo" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="ObjectInputStream" name="input"/>
+          <Argument type="ObjectOutputStream" name="output"/>
+          <Argument type="Vector&lt;ForwardMessage&gt;" name="clients"/>
+          <Argument type="Vector&lt;String&gt;" name="arquivos"/>
+          <Argument type="String" name="arquivo"/>
+          <Argument type="Vector&lt;String&gt;" name="nomesArq"/>
+          <Argument type="String" name="nomeArq"/>
+          <Argument type="Socket" name="socket"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="run" returnType="void" visibility="public"/>
+        <Method name="getInput" returnType="ObjectInputStream" visibility="public"/>
+        <Method name="getOutput" returnType="ObjectOutputStream" visibility="public"/>
+        <Method name="getSocket" returnType="Socket" visibility="public"/>
+        <Method name="setSocket" returnType="void" visibility="public">
+          <Argument type="Socket" name="socket"/>
+        </Method>
+        <Method name="numClients" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="GraphicServer" package="serverdocs" visibility="public" xPosition="678.0" yPosition="499.0">
+      <Fields>
+        <Field name="servidor" type="JLabel" visibility="package"/>
+        <Field name="OnOff" type="JButton" visibility="package"/>
+        <Field name="Desconectar" type="JButton" visibility="package"/>
+        <Field name="ligado" type="boolean" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="ServerSocket" name="server"/>
+          <Argument type="Vector&lt;ForwardMessage&gt;" name="clients"/>
+          <Argument type="Vector&lt;String&gt;" name="arquivos"/>
+          <Argument type="Vector&lt;String&gt;" name="nomeArq"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="Docs" package="serverdocs" visibility="public" xPosition="1202.0" yPosition="1054.0">
+      <Fields>
+        <Field name="pilha" type="LinkedList&lt;Comando&gt;" visibility="private"/>
+        <Field name="texto" type="Text" visibility="private"/>
+        <Field name="copy_paste" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="InsereTexto" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Docs" name="programa"/>
+          <Argument type="Text" name="entrada"/>
+          <Argument type="boolean" name="flag"/>
+        </Method>
+        <Method name="RemoveTexto" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Docs" name="programa"/>
+          <Argument type="int" name="num"/>
+          <Argument type="boolean" name="flag"/>
+        </Method>
+        <Method name="RemoveTexto" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Docs" name="programa"/>
+          <Argument type="int" name="num"/>
+          <Argument type="boolean" name="flag"/>
+          <Argument type="int" name="fim"/>
+        </Method>
+        <Method name="Desfazer" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Docs" name="programa"/>
+        </Method>
+        <Method name="Refazer" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Docs" name="programa"/>
+        </Method>
+        <Method name="InputString" returnType="Text" visibility="public" isStatic="true">
+          <Argument type="String" name="entrada"/>
+        </Method>
+        <Method name="InputInt" returnType="int" visibility="public" isStatic="true"/>
+        <Method name="getTexto" returnType="Text" visibility="public"/>
+        <Method name="getCopy_paste" returnType="String" visibility="public"/>
+        <Method name="setCopy_paste" returnType="void" visibility="public">
+          <Argument type="String" name="copy_paste"/>
+        </Method>
+        <Method name="setTexto" returnType="void" visibility="public">
+          <Argument type="Text" name="texto"/>
+        </Method>
+        <Method name="setPilha" returnType="void" visibility="public">
+          <Argument type="LinkedList&lt;Comando&gt;" name="pilha"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Comando" package="serverdocs" visibility="public" xPosition="600.0" yPosition="1076.0">
+      <Fields>
+        <Field name="instrucao" type="int" visibility="private"/>
+        <Field name="operando" type="Text" visibility="private"/>
+        <Field name="fim" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="int" name="instrucao"/>
+          <Argument type="Text" name="operando"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getInstrucao" returnType="int" visibility="public"/>
+        <Method name="setInstrucao" returnType="void" visibility="public">
+          <Argument type="int" name="instrucao"/>
+        </Method>
+        <Method name="getOperando" returnType="Text" visibility="public"/>
+        <Method name="setOperando" returnType="void" visibility="public">
+          <Argument type="Text" name="operando"/>
+        </Method>
+        <Method name="getFim" returnType="int" visibility="public"/>
+        <Method name="setFim" returnType="void" visibility="public">
+          <Argument type="int" name="fim"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ServerDocs" package="serverdocs" visibility="public" xPosition="630.0" yPosition="765.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Text" package="serverdocs" visibility="public" xPosition="1243.0" yPosition="737.0">
+      <Fields>
+        <Field name="texto" type="LinkedList&lt;Character&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="LinkedList&lt;Character&gt;" name="texto"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getTexto" returnType="LinkedList&lt;Character&gt;" visibility="public"/>
+        <Method name="setTexto" returnType="void" visibility="public">
+          <Argument type="LinkedList&lt;Character&gt;" name="texto"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <UseRelation source="serverdocs.Docs" target="serverdocs.Comando" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="texto" source="serverdocs.Docs" target="serverdocs.Text" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="serverdocs.Docs" target="serverdocs.Text" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="serverdocs.Docs" target="serverdocs.Docs" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="pilha" source="serverdocs.Docs" target="serverdocs.Comando" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="LinkedList&lt;Comando&gt;"/>
+    <HasRelation name="operando" source="serverdocs.Comando" target="serverdocs.Text" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="serverdocs.Comando" target="serverdocs.Text" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="clients" source="serverdocs.ForwardMessage" target="serverdocs.ForwardMessage" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

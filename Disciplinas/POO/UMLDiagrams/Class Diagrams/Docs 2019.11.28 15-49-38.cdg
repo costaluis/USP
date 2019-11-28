@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Docs">
+  <ClassDiagramComponents>
+    <Class name="ReceiveMsg" package="docs" visibility="public" xPosition="602.0" yPosition="206.0">
+      <Fields>
+        <Field name="input" type="ObjectInputStream" visibility="private"/>
+        <Field name="output" type="ObjectOutputStream" visibility="private"/>
+        <Field name="text" type="JTextArea" visibility="private"/>
+        <Field name="programa" type="Docs" visibility="private"/>
+        <Field name="graphic" type="GraphicDocs" visibility="private"/>
+        <Field name="on" type="boolean" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="ObjectInputStream" name="input"/>
+          <Argument type="JTextArea" name="text"/>
+          <Argument type="ObjectOutputStream" name="output"/>
+          <Argument type="Docs" name="programa"/>
+          <Argument type="GraphicDocs" name="graphic"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="run" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Docs" package="docs" visibility="public" xPosition="580.0" yPosition="865.0">
+      <Fields>
+        <Field name="pilha" type="LinkedList&lt;Comando&gt;" visibility="private"/>
+        <Field name="texto" type="Text" visibility="private"/>
+        <Field name="copy_paste" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+        <Method name="InsereTexto" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Docs" name="programa"/>
+          <Argument type="Text" name="entrada"/>
+          <Argument type="boolean" name="flag"/>
+        </Method>
+        <Method name="RemoveTexto" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Docs" name="programa"/>
+          <Argument type="int" name="num"/>
+          <Argument type="boolean" name="flag"/>
+        </Method>
+        <Method name="RemoveTexto" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Docs" name="programa"/>
+          <Argument type="int" name="num"/>
+          <Argument type="boolean" name="flag"/>
+          <Argument type="int" name="fim"/>
+        </Method>
+        <Method name="Desfazer" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Docs" name="programa"/>
+        </Method>
+        <Method name="Refazer" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Docs" name="programa"/>
+        </Method>
+        <Method name="InputString" returnType="Text" visibility="public" isStatic="true">
+          <Argument type="String" name="entrada"/>
+        </Method>
+        <Method name="InputInt" returnType="int" visibility="public" isStatic="true"/>
+        <Method name="getTexto" returnType="Text" visibility="public"/>
+        <Method name="getCopy_paste" returnType="String" visibility="public"/>
+        <Method name="setCopy_paste" returnType="void" visibility="public">
+          <Argument type="String" name="copy_paste"/>
+        </Method>
+        <Method name="setTexto" returnType="void" visibility="public">
+          <Argument type="Text" name="texto"/>
+        </Method>
+        <Method name="setPilha" returnType="void" visibility="public">
+          <Argument type="LinkedList&lt;Comando&gt;" name="pilha"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="GraphicDocs" package="docs" visibility="public" xPosition="294.0" yPosition="412.0">
+      <Fields>
+        <Field name="arq" type="Docs" visibility="package"/>
+        <Field name="t" type="Thread" visibility="package"/>
+        <Field name="input" type="ObjectInputStream" visibility="package"/>
+        <Field name="output" type="ObjectOutputStream" visibility="package"/>
+        <Field name="socket" type="Socket" visibility="package"/>
+        <Field name="texto" type="JTextArea" visibility="package"/>
+        <Field name="docsText" type="JTextArea" visibility="package"/>
+        <Field name="scrollComando" type="JScrollPane" visibility="package"/>
+        <Field name="scrollTexto" type="JScrollPane" visibility="package"/>
+        <Field name="adicionarBut" type="JButton" visibility="package"/>
+        <Field name="removerBut" type="JButton" visibility="package"/>
+        <Field name="desfazerBut" type="JButton" visibility="package"/>
+        <Field name="refazerBut" type="JButton" visibility="package"/>
+        <Field name="copyBut" type="JButton" visibility="package"/>
+        <Field name="pasteBut" type="JButton" visibility="package"/>
+        <Field name="cutBut" type="JButton" visibility="package"/>
+        <Field name="menuBar" type="JMenuBar" visibility="package"/>
+        <Field name="panelBut" type="JPanel" visibility="package"/>
+        <Field name="panelText" type="JPanel" visibility="package"/>
+        <Field name="helpFrame" type="JFrame" visibility="package"/>
+        <Field name="numClientes" type="JLabel" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Docs" name="arq"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="EscolheArq" package="docs" visibility="public" xPosition="1475.0" yPosition="206.0">
+      <Fields>
+        <Field name="botoes" type="JPanel" visibility="package"/>
+        <Field name="arquivos" type="JLabel" visibility="package"/>
+        <Field name="d" type="DefaultListModel" visibility="package"/>
+        <Field name="lista" type="JList" visibility="package"/>
+        <Field name="novoArq" type="JButton" visibility="package"/>
+        <Field name="select" type="JButton" visibility="package"/>
+        <Field name="closed" type="boolean" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String[]" name="arqs"/>
+          <Argument type="ObjectOutputStream" name="output"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="Comando" package="docs" visibility="public" xPosition="1228.0" yPosition="952.0">
+      <Fields>
+        <Field name="instrucao" type="int" visibility="private"/>
+        <Field name="operando" type="Text" visibility="private"/>
+        <Field name="fim" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="int" name="instrucao"/>
+          <Argument type="Text" name="operando"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getInstrucao" returnType="int" visibility="public"/>
+        <Method name="setInstrucao" returnType="void" visibility="public">
+          <Argument type="int" name="instrucao"/>
+        </Method>
+        <Method name="getOperando" returnType="Text" visibility="public"/>
+        <Method name="setOperando" returnType="void" visibility="public">
+          <Argument type="Text" name="operando"/>
+        </Method>
+        <Method name="getFim" returnType="int" visibility="public"/>
+        <Method name="setFim" returnType="void" visibility="public">
+          <Argument type="int" name="fim"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Text" package="docs" visibility="public" xPosition="1509.0" yPosition="644.0">
+      <Fields>
+        <Field name="texto" type="LinkedList&lt;Character&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="LinkedList&lt;Character&gt;" name="texto"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getTexto" returnType="LinkedList&lt;Character&gt;" visibility="public"/>
+        <Method name="setTexto" returnType="void" visibility="public">
+          <Argument type="LinkedList&lt;Character&gt;" name="texto"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="operando" source="docs.Comando" target="docs.Text" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="pilha" source="docs.Docs" target="docs.Comando" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="LinkedList&lt;Comando&gt;"/>
+    <UseRelation source="docs.Comando" target="docs.Text" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="texto" source="docs.Docs" target="docs.Text" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="graphic" source="docs.ReceiveMsg" target="docs.GraphicDocs" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="docs.Docs" target="docs.Comando" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="docs.Docs" target="docs.Text" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="programa" source="docs.ReceiveMsg" target="docs.Docs" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="docs.Docs" target="docs.Docs" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="arq" source="docs.GraphicDocs" target="docs.Docs" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

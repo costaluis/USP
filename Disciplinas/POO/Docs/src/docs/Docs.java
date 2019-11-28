@@ -1,7 +1,6 @@
+ package docs;
 
-package docs;
-
-import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
 import javax.swing.JFrame;
@@ -15,7 +14,6 @@ public class Docs {
     private LinkedList <Comando> pilha;
     private Text texto;
     private String copy_paste;
-    private File f;
     
     /**
      * Construtor da classe Docs.
@@ -23,7 +21,6 @@ public class Docs {
      * @author Luis Fernando
      */
     public Docs() {
-        this.f = null;
         this.pilha = new LinkedList();
         this.texto = new Text();
         this.copy_paste = new String();
@@ -34,14 +31,15 @@ public class Docs {
      * @param args vetor de Strings que a main recebe como parâmetro
      * @author João Pedro
      * @author Luis Fernando
+     * @throws java.io.IOException
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        
+
         Docs programa = new Docs();
-        File F;
-        Server s = new Server(programa);
-        GraphicDocs teste = new GraphicDocs(programa,s);
+        
+        GraphicDocs teste = new GraphicDocs(programa);
         teste.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        teste.setVisible(true);
     }
     
     /**
@@ -113,6 +111,7 @@ public class Docs {
     public static void RemoveTexto(Docs programa, int num, boolean flag, int fim){
         Comando comandos = new Comando();
         comandos.setInstrucao(2);
+        comandos.setFim(fim);
         for(int i=fim-1; num >= fim-i; i--){
             comandos.getOperando().getTexto().push(programa.texto.getTexto().get(i));
             programa.texto.getTexto().remove(i);
@@ -195,6 +194,7 @@ public class Docs {
     
     /**
      * Recebe uma string informada pelo usuário e a converte em um objeto Text.
+     * @param entrada
      * @return Text
      * @author João Pedro
      * @author Luis Fernando
@@ -262,26 +262,6 @@ public class Docs {
     }
 
     /**
-     * Retorna o atributo File do Arquivo, caso o mesmo já tenha sido salvo ou aberto.
-     * @return File
-     * @author João Pedro
-     * @author Luis Fernando
-     */
-    public File getF() {
-        return f;
-    }
-
-    /**
-     * Atribui um novo File ao programa, utilizado quando o arquivo é salvo.
-     * @param f 
-     * @author João Pedro
-     * @author Luis Fernando
-     */
-    public void setF(File f) {
-        this.f = f;
-    }
-
-    /**
      * Atribui uma nova pilha de comandos ao progrma.
      * @param pilha 
      * @author João Pedro
@@ -289,8 +269,7 @@ public class Docs {
      */
     public void setPilha(LinkedList<Comando> pilha) {
         this.pilha = pilha;
-    }
-    
-    
-    
+    } 
+
 }
+   
